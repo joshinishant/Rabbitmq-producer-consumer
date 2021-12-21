@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: producerconsumer
+  labels: 
+   app: web
+spec:
+  hostname: local-rabbitmq
+  containers:
+  - name: rabbitmq
+    image: rabbitmq:3-management
+    resources:
+      requests: 
+        memory: "150Mi"
+        cpu: "250m"
+      limits: 
+        memory: "300Mi"
+        cpu: "500m"
+    ports: 
+    - containerPort: 5672
+    - containerPort: 15672
+  - name: producer
+    image: nishantjoshipm9/rmq-producer:latest
+    resources:
+      requests: 
+        memory: "450Mi"
+        cpu: "250m"
+      limits: 
+        memory: "550Mi"
+        cpu: "500m"
+    ports: 
+    - containerPort: 8081
+  - name: consumer
+    image: nishantjoshipm9/rmqconsumer:latest
+    resources:
+      requests: 
+        memory: "450Mi"
+        cpu: "250m"
+      limits: 
+        memory: "550Mi"
+        cpu: "500m"
+    ports: 
+    - containerPort: 8082
